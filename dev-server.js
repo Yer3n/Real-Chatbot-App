@@ -24,7 +24,10 @@ app.use(express.static(join(__dirname, "public")));
 // Wire the same handler Vercel uses in production.
 app.post("/api/chat", (req, res) => chatHandler(req, res));
 
-const PORT = process.env.PORT || 3000;
+const DEFAULT_PORT = 3000;
+const portFromEnv = Number(process.env.PORT);
+const PORT = Number.isInteger(portFromEnv) && portFromEnv > 0 ? portFromEnv : DEFAULT_PORT;
+
 app.listen(PORT, () => {
   console.log(`✓ Dev server running on http://localhost:${PORT}`);
 });
